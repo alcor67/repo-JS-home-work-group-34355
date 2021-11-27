@@ -1,3 +1,3 @@
 const fun = () => {
-  const hello = "world"
+  const hello = "world 1111122222"
 }
