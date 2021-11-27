@@ -81,7 +81,7 @@
       Применяем оператор опциональной последовательности ? (см. его описание выше)
       и исключаем появление ошибки
       */
-      console.log(products.filter(product => product.photos?.length !== 0 && 'photos' in product));
+      console.log(products.filter(product => (product.photos.length ?? 0) !== 0));
 
       /*
       2. Необходимо отсортировать массив products используя метод sort по цене,
