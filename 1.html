@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+
+    <div class="card" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title" data-number="100">Card title</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text" data-number="50">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
+        <!--http://htmlbook.ru/html/a/href-->
+        <a href="#" id="super_link" class="card-link">Card link</a>
+        <a href="#" class="card-link" data-number="50">Another link</a>
+      </div>
+    </div>
+
+    <script>
+      'use strict';
+
+      /*
+        1. Найти по id, используя getElementById, элемент с id равным "super_link" и
+        вывести этот элемент в консоль.
+         */
+      console.log(document.getElementById('super_link'));
+      //console.dir(document.getElementById('super_link'));
+
+      /*
+        2. Внутри всех элементов на странице, которые имеют класс "card-link",
+        поменяйте текст внутри элемента на "ссылка".
+         */
+
+      //см. файл "Урок 5. Введение в DOM.mp4" тайм код 44.35 и 45.30
+      document
+        .querySelectorAll('.card-link')
+        .forEach((element) => (element.textContent = 'ссылка'));
+
+      /*
+        3. Найти все элементы на странице с классом "card-link", которые лежат в
+        элементе с классом "card-body" и вывести полученную коллекцию в консоль.
+         */
+      console.log(document.querySelectorAll('.card-body .card-link'));
+      /*
+        4. Найти первый попавшийся элемент на странице у которого есть атрибут
+        data-number со значением 50 и вывести его в консоль.
+         */
+      //см. файл "Урок 5. Введение в DOM.mp4" тайм код 26.50
+      console.log(document.querySelector('[data-number = "50"]'));
+      /*
+        5. Выведите содержимое тега title в консоль.
+         */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 25.29
+      console.log(document.title);
+      /*
+        6. Получите элемент с классом "card-title" и выведите его родительский узел
+        в консоль.
+         */
+
+      /*https://developer.mozilla.org/ru/docs/Web/API/Node/parentNode
+      - здесь убого
+      https://basicweb.ru/javascript/js_node_parentnode.php -
+      здесь лучше
+      
+      */
+      console.log(document.querySelector('.card-title').parentNode);
+      /*
+        7. Создайте тег `p`, запишите внутри него текст "Привет" и добавьте созданный
+        тег в начало элемента, который имеет класс "card".
+         */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 49.04
+      // создаем тэг
+      const newTag_p = document.createElement('p');
+      // добавляем в тэг Привет
+      newTag_p.textContent = 'Привет';
+      //см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.00.17
+      /*document
+        .querySelector('.card')
+        .insertAdjacentElement('afterbegin', newTag_p);
+        */
+      //см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.03.04
+      document.querySelector('.card').prepend(newTag_p);
+
+      /*
+        8. Удалите тег h6 на странице.
+         */
+      //см. файл "Урок 5. Введение в DOM.mp4" тайм код 54.15
+      document.querySelector('h6').remove();
+    </script>
+  </body>
+</html>
