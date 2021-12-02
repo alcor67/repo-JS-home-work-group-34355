@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+
+    <p class="super_element">Привет</p>
+
+    <img src="https://placeimg.com/50/50/animals" alt="" />
+    <img src="https://placeimg.com/50/50/arch" alt="" />
+    <img src="https://placeimg.com/50/50/nature" alt="" />
+    <img src="https://placeimg.com/50/50/people" alt="" />
+    <img src="https://placeimg.com/50/50/tech" alt="" />
+    <img src="https://placeimg.com/50/50/tech/grayscale" alt="" />
+    <img src="https://placeimg.com/50/50/tech/sepia" alt="" />
+
+    <br />
+
+    <button>Кнопка</button>
+    <button class="super_element">Кнопка с классом btn</button>
+    <button>Кнопка</button>
+
+    <br />
+
+    <textarea></textarea>
+
+    <br />
+
+    <ul>
+      <li>
+        <button>Кнопка 1</button>
+      </li>
+      <li>
+        <button>Кнопка 2</button>
+      </li>
+      <li>
+        <button>Кнопка 3</button>
+      </li>
+      <li>
+        <button>Кнопка 4</button>
+      </li>
+    </ul>
+
+    <script>
+      'use strict';
+
+      /*
+        1. Необходимо вывести сообщение в консоль "все теги прогрузились", когда все
+        теги будут созданы браузером.
+        */
+      //событие, что html загружен, возможно не загружены картинки или стили
+      //см файл "Урок 5. Введение в DOM.mp4" таймкод 1.45.08
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('"все теги прогрузились"');
+      });
+      /*
+        2. Необходимо вывести сообщение в консоль "страница загрузилась", когда все
+        ресурсы страницы будут загружены.
+        */
+      //событие, что загружен весь контент с картинками и стилями
+      //см файл "Урок 5. Введение в DOM.mp4" таймкод 1.45.52
+      window.addEventListener('load', () => {
+        console.log('"страница загрузилась"');
+      });
+
+      /*
+        3. При клике на какой-либо тег на странице в консоль должно выводиться
+        сообщение наподобии:
+        Класс "super_element" присутствует в элементе "div".
+        сообщение должно определять присутствует или отсутвтует класс "super_element"
+        у элемента, а также выводить в нижнем регистре верный тег в данной строке, по
+        которому был совершен клик.
+        */
+      /*
+      включаем прослушку по клику мышки и смотрим объект событие evnt1
+      */
+      document.addEventListener('click', (evnt1) => {
+        /*
+      получаем объект evnt1.target.classList содержимое списков классов (.classList)
+      из источника (.target) события (evnt1).
+      Метод (.contains ( 'String' )) Проверяет, есть ли данный класс
+      у элемента (вернёт true или false) и присваивает их константе availabClass
+      https://developer.mozilla.org/ru/docs/Web/API/Element/classList
+      */
+        //true or false
+        const availabClass = evnt1.target.classList.contains('super_element');
+        /*
+      применяем тернарный оператор если класс 'super_element' присутствует
+      availabClass = true, то константе superElem присваиваем значение "присутствует",
+      если нет availabClass = false, то "отсутствует"
+      ('присутствует' : 'отсутствует')
+      http://gearmobile.github.io/javascript/ifelse/
+      */
+        const superElem = availabClass ? 'присутствует' : 'отсутствует';
+        /*
+      Вывод в консоль наименования тэга (.tagName) который был в
+      источником (.target) по которому прошло событие (evnt1)
+      Метод .toLowerCase() возвращает значение строки, на которой он был 
+      вызван, преобразованное в нижний регистр
+      https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase
+      */
+        console.log(
+          `Класс "super_element" ${superElem} в элементе "${evnt1.target.tagName.toLowerCase()}".`
+        );
+      });
+      /*
+        4. Сделайте, чтобы при наведении на textarea в консоли появлялось сообщение:
+        "Вы навели на textarea."
+         */
+      /*
+        Получаем тег 'textarea' через document.querySelector('textarea')
+        и к нему применяем метод прослушки .addEventListener 
+        через наведение мышки 'mouseover' на область этого тега
+        организуем стрелочную функцию по этому событию
+        с выводом в консоль  "Вы навели на textarea."
+        */
+      document.querySelector('textarea').addEventListener('mouseover', () => {
+        console.log('"Вы навели на textarea."');
+      });
+      /*
+        5. Необходимо повесить событие клика на тег ul. В обработчике события в
+        консоль необходимо выводить текст, который записан внутри элемента кнопки,
+        по которой был произведен клик.
+        Если клик был не по кнопке, то ничего выводить не нужно.
+         */
+
+      /*
+      //Получаем элемент с тэгом <ul> document.querySelector('ul')
+      Вешаем на него событие клика evnt2 .addEventListener('click', (evnt2)
+      */
+      document.querySelector('ul').addEventListener('click', (evnt2) => {
+        /*
+        проверяем, что клик идет внутри тега <ul> по тэгу <button>
+        методом .target.tagName возвращаем имя тэга 
+        по которому был клик по событию evnt2
+        это называется делегирование события
+        причем имя тега надо писать БОЛЬШИМИ БУКВАМИ
+        см. файл "Делегирование событий.mp4" в доп материалах к уроку 
+        тайм код 07.35
+        */
+        if (evnt2.target.tagName === 'BUTTON') {
+          //выводим текст, который записан внутри элемента кнопки
+          console.log(evnt2.target.textContent);
+        }
+      });
+      /*
+        6. Вопрос: Почему в console.log пишется сначала текст из 5 задания и только
+        потом выводится текст из 3 задания, если мы кликаем по кнопкам в ul?
+        Ответ необходимо написать здесь же, под этим комментарием, своими словами.
+        */
+      /*
+      событие по заданию 5 привязано к тэгу <ul> 
+      и по методу погружения идем по пути: 
+      window -> document  -> HTML -> body -> ul = событие evnt2
+      и внутри него проверяем, что событие должно происходить
+      при клике по тэгу <button>, но не погружаемся до его уровня.
+      evnt2.target.tagName === 'BUTTON' - это не погружение 
+      а делегирование, т.е. просто проверка условия на то, 
+      какой тэг лежит в target события evnt2 и отработка по 
+      этому тэгу. Т.е. на родительском тэге <ul> погружение 
+      прерывается и начинается всплытие обратно на уровень window
+      
+      событие по заданию 3 будет непосредственно привязано к 
+      источнику события клика по кнопке внутри тэга <ul>, 
+      а это будет тэг <button> и по методу погружения идем по пути: 
+      window -> document -> HTML -> body -> ul -> li ->button = событие evnt1
+      погружение и соответственно всплытие на два уровня глубже.
+
+      соответственно событие ловится по умолчанию на всплытии 
+      см. файл "Всплытие событий и их остановка.mp4" тайм код 04.42
+      в доп материалах к уроку
+      (по умолчанию в .addEventListener флаг прослушки false, 
+      если поставить true, то будет ловить на всплытии)
+      и событие по заданию 5 достигнет window (и соответственно выведет
+      в консоль свое сообщение) раньше, чем событие по заданию 3.
+      см. файл "Делегирование событий.mp4" в доп материалах к уроку
+      */
+
+      /*
+        7. С помощью JS необходимо изменить цвет заднего фона каждого 
+        второго тега li.
+         */
+      /*
+      https://basicweb.ru/jquery/jquery_sel_nth-child.php
+      jQuery селектор :nth-child позволяет выбрать все (querySelectorAll) 
+      дочерние элементы внутри родительского элемента в зависимости от их 
+      размещения (порядкового номера в документе).
+      https://developer.mozilla.org/ru/docs/Web/CSS/:nth-child 
+      CSS псевдокласс  :nth-child() находит один или более 
+      (все - querySelectorAll) элементов, основываясь на их позиции среди 
+      группы соседних элементов.
+      even (четные элементы)
+      odd (нечетные элементы)
+      li:nth-child(even) или li:nth-child(2n)
+      Описывает чётные строки HTML элемента <li>: 2, 4, 6, и т. д.
+      и присвоит их allElemInLi, в нашем случае четные - even
+      */
+      //const allElemInLi = document.querySelectorAll('li:nth-child(even)');
+      const allElemInLi = document.querySelectorAll('li:nth-child(even)');
+      /*
+      организуем перебор из allElemInLi этих дочерних элементов elemInLi внутри
+       тега <li> методом .forEach 
+      (файл записи Урок 3. Циклы, массивы, структуры данных.mp4 таймкод 1.43
+      и 1.48)
+      и в этом цикле присваиваем цвету заднего фона 
+      .style.backgroundColor = 'darkgreen'
+
+        */
+      allElemInLi.forEach(
+        (elemInLi) => (elemInLi.style.backgroundColor = 'darkgreen')
+      );
+    </script>
+  </body>
+</html>

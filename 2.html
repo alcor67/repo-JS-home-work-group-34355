@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+
+    <p class="dropdown">Привет :)</p>
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        Dropdown button
+      </button>
+      <div class="menu dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </div>
+
+    <script>
+      'use strict';
+
+      /*
+      1. Ко всем элементам, имеющим класс "dropdown-item" добавить еще один класс
+      "super-dropdown", необходимо использовать методы forEach и querySelectorAll и
+      свойство classList у элементов.
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.06.00
+      document
+        .querySelectorAll('.dropdown-item')
+        .forEach((elem1) => elem1.classList.add('super-dropdown'));
+
+      /*
+      2. У элемента с классом btn необходимо убрать класс "btn-secondary", если он
+      присутствует у этого элемента, либо добавить, если такого класса у элемента
+      не было.
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.07.00
+      document
+        .querySelectorAll('.btn')
+        .forEach((elem2) => elem2.classList.toggle('btn-secondary'));
+      //console.log(document.querySelectorAll('.btn'));
+
+      /*
+      3. Необходимо удалить класс "dropdown-menu" у элемента, у которого
+      присутствует класс "menu".
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.06.00
+      document
+        .querySelectorAll('.menu')
+        .forEach((elem3) => elem3.classList.remove('dropdown-menu'));
+      //console.log(document.querySelectorAll('.menu'));
+      /*
+      4. Используя метод insertAdjacentHTML добавьте после div'a с классом
+      "dropdown" следующую разметку:
+        <a href="#">link</a>
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 56.48
+      document
+        .querySelector('div.dropdown')
+        .insertAdjacentHTML('afterend', '<a href="#">link</a>');
+      //console.log(document.querySelector('div.dropdown').className);
+      //console.log(document.querySelector('div.dropdown').classList);
+      /*
+      5. У элемента с id "dropdownMenuButton" замените id на "superDropdown".
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.09.27
+      document.getElementById('dropdownMenuButton').id = 'superDropdown';
+      /*
+      6. Добавьте атрибут data-dd со значением 3 элементу у которого существует
+      атрибут "aria-labelledby" равный "dropdownMenuButton" используя dataset.
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.13.35 и 1.14.50 и 1.15.00
+      // получаем объект у которого атрибут с ключем aria-labelledby
+      // и значением dropdownMenuButton
+      // и методом dataset добавляем дата-атрибут у которого ключ data-dd
+      // и значение 3, причем надо вводить в форме стороки '3'.
+      document.querySelector(
+        '[aria-labelledby = "dropdownMenuButton"]'
+      ).dataset.dd = '3';
+      /*
+      7. Удалите атрибут type у элемента с классом "dropdown-toggle".
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.15.31
+      // получаем объект у которого класс dropdown-toggle
+      // и методом .removeAttribute удаляем атрибут у которого ключ type
+      document.querySelector('.dropdown-toggle').removeAttribute('type');
+      /*
+
+      8. Выведите в консоль все имеющиеся атрибуты и их значения тега у которого
+      есть все два класса btn и dropdown-toggle.
+      Вывод каждого атрибута и значений должен выглядеть следующим образом (пример):
+      Атрибут "class" содержит значение "btn btn-secondary dropdown-toggle"
+       */
+      // см. файл "Урок 5. Введение в DOM.mp4" тайм код 1.11.46
+      // получаем атрибуты объекта с классом dropdown-toggle.btn в виде Node коллекции
+      const attribs = document.querySelector('.dropdown-toggle.btn').attributes;
+      //console.log(document.querySelector('.dropdown-toggle.btn').attributes);
+      // Организуем цикл for of по содержимому коллекции, где i переменная цикла
+      // последовательно пробегается по всем элементам коллекции (это пара ключ:значение)
+      // и выводит ключи атрибутов i.name и значения этих ключей i.value
+      for (let i of attribs) {
+        console.log(`Атрибут "${i.name}" содержит значение "${i.value}"`);
+      }
+    </script>
+  </body>
+</html>
