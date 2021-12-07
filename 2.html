@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+    />
+    <style>
+      .message {
+        width: 150px;
+        padding: 20px;
+        background: lightgoldenrodyellow;
+        border: 1px solid orange;
+        visibility: hidden;
+      }
+      .error {
+        border: 0.3rem solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+
+    <input id="from" type="text" />
+    В инпуте написано: <span></span>
+
+    <br />
+
+    <button class="messageBtn">Показать блок</button>
+    <div class="message">Привет :)</div>
+
+    <br />
+
+    <form>
+      <label>
+        Первый инпут:
+        <input class="form-control" type="text" />
+      </label>
+      <br />
+      <br />
+      <label>
+        Второй инпут:
+        <select class="form-control">
+          <option value=""></option>
+          <option value="1">Один</option>
+          <option value="2">Два</option>
+        </select>
+      </label>
+      <br />
+      <br />
+      <button>Отправить</button>
+    </form>
+
+    <script>
+      'use strict';
+
+      /*
+  1. При изменении значения в input с id="from", значение содержащееся в нем
+  должно моментально отображаться в span. То есть при печати в input'е тег span
+  также должен меняться.
+  */
+      /*
+см файл записи вэбинара к уроку 6 таймкод 00.28
+получаем объект с тэгом span и обзываем elemSpan
+аналогично получаем объект с ID 'from' и обзываем elemFrom
+https://developer.mozilla.org/ru/docs/Web/API/Document/getElementById
+*/
+      const elemSpanl = document.querySelector('span');
+      const elemFrom = document.getElementById('from');
+      //вешаем прослушку события input на элемент elemFrom с ID 'from'
+      elemFrom.addEventListener('input', (event) => {
+        /*
+      второй вариант ищем этот элемент по его тэгу input через .querySelector 
+      const elemFrom = document.querySelector('input');
+    
+    заносим содержимое пролученное по событию 'input'
+    (это будет event.target.value) 
+    в текстовку .textContent тэга (объекта) span 
+    */
+        elemSpanl.textContent = event.target.value;
+      });
+
+      /*
+  2. При клике на кнопку с классом messageBtn необходимо элементу с классом
+  message:
+  1) добавить два класса: animate__animated и animate__fadeInLeftBig
+  2) поставить данному элементу стиль visibility в значение 'visible'.
+   */
+      /*
+    получаем объект с классом .message и обзываем elemMess
+    аналогично получаем объект с классом '.messageBtn' и обзываем messBtn
+    */
+      const elemMess = document.querySelector('.message');
+      const messBtn = document.querySelector('.messageBtn');
+      //вешаем прослушку события click на элемент elemMess с классом.messageBtn
+      messBtn.addEventListener('click', () => {
+        /*
+        по событию click на элементе
+        добавляем два класса: animate__animated и animate__fadeInLeftBig
+        https://ruseller.com/lessons.php?id=2131&rub=32
+        */
+        elemMess.classList.add('animate__animated', 'animate__fadeInLeftBig');
+        /*ставим данному элементу стиль visibility в значение 'visible'
+        https://www.educba.com/javascript-style-visibility/
+        object.style.visibility: This syntax will help us to set visibility
+        property to the element so one can show or hide elements as per their
+        choice.
+        element.style.visbility =”hidden”;
+        element.style.visibility=”visible”;
+        */
+        elemMess.style.visibility = 'visible';
+      });
+      /*
+  3. Необходимо при отправке формы проверить, заполнены ли все поля в этой
+  форме. Если какое-либо поле не заполнено, форма не должна отправляться, также
+  должны быть подсвечены незаполненные поля (необходимо поставить класс error
+  незаполненным полям).
+  Как только пользователь начинает заполнять какое-либо поле, необходимо,
+  при вводе в данное поле, произвести проверку:
+  Если поле пустое, необходимо данное поле подсветить (поставить класс error
+  данному полю).
+  Если поле было чем-либо заполнено, подсветку (класс error) необходимо убрать.
+   */
+      /*
+см файл записи вэбинара к уроку 6 таймкод 00.38 
+работа с формой, reset очистка формы
+получаем объект с тэгом form (оба инпута в этом теге) и обзываем elemForm
+из это
+*/
+      const elemForm = document.querySelector('form');
+      /*
+аналогично получаем объект с классом .form-control и обзываем elemContr
+под этим классом два тэга 'input' и 'select'
+      */
+      const elemContrAll = document.querySelectorAll('.form-control');
+      /*
+      вешаем на элемент elemForm с тэгом form прослушку по 
+      событию отправки формы submit
+      */
+      elemForm.addEventListener('submit', (event) => {
+        //переберем все элементы forEach в объекте elemContrAll
+        elemContrAll.forEach((elemContr) => {
+          //на предмет факта того, что поле не заполнено
+          if (elemContr.value === '') {
+            /*
+        в этом случае в перебираемый элемент elemContr 
+        объекта elemContrAll добавляем класс .error
+        (это у нас подсветка рамки поля инпута красным цветом)
+        */
+            elemContr.classList.add('error');
+            //и отменяем действия браузера по умолчанию
+            event.preventDefault();
+          }
+        });
+      });
+      /*
+      вешаем на элемент elemForm с тэгом form прослушку по 
+      событию введения данных в форму input
+      см файл записи вэбинара к уроку 6 таймкод 00.28 и 00.38
+      */
+      elemForm.addEventListener('input', (event) => {
+        /*
+        применяем тернарный оператор если значение value источника target
+        события event ввода данных в форму будет незаполненное поле ''
+        то в класс объекта, являющегося источником события
+        добавляем класс error, иначе удаляем оттуда класс error
+        (это у нас подсветка рамки поля инпута красным цветом)
+        */
+        event.target.value === ''
+          ? event.target.classList.add('error')
+          : event.target.classList.remove('error');
+      });
+      /*
+      вешаем на элемент elemForm с тэгом form прослушку по 
+      событию клика на поле заполнения формы click
+      */
+      elemForm.addEventListener('click', (event) => {
+        //исключаем подсветку кнопки "Отправить"
+        if (event.target.tagName !== 'BUTTON') {
+          /*
+        применяем тернарный оператор если значение value источника target
+        события event ввода данных в форму будет незаполненное поле ''
+        то в класс объекта, являющегося источником события
+        добавляем класс error, иначе удаляем оттуда класс error
+        (это у нас подсветка рамки поля инпута красным цветом)
+        */
+          event.target.value === ''
+            ? event.target.classList.add('error')
+            : event.target.classList.remove('error');
+        }
+      });
+    </script>
+  </body>
+</html>

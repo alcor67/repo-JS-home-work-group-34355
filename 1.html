@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+    <style>
+      .product {
+        width: 200px;
+        padding: 10px;
+        float: left;
+        margin-right: 30px;
+        box-shadow: 0 0 4px black;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+    <div class="product">
+      <div class="productName">Товар 1</div>
+      <img src="https://picsum.photos/id/367/200/300" alt="" />
+      <button>В корзину</button>
+    </div>
+    <div class="product">
+      <div class="productName">Товар 2</div>
+      <img src="https://picsum.photos/id/425/200/300" alt="" />
+      <button>В корзину</button>
+    </div>
+    <div class="product">
+      <div class="productName">Товар 3</div>
+      <img src="https://picsum.photos/id/429/200/300" alt="" />
+      <button>В корзину</button>
+    </div>
+
+    <script>
+      'use strict';
+
+      /*
+        1. Установите всем элементам с классом "productName" размер шрифта 24px.
+         */
+      /*
+        получаем все элементы с классом .productName
+        через .querySelectorAll
+        методом перебора по всем элементам forEach прописываем
+        методом .style.fontSize в div с этим классом шрифт 24px
+        через метод .style.fontSize
+        https://puzzleweb.ru/javascript/element_style.php
+        */
+      document
+        .querySelectorAll('.productName')
+        .forEach((prodNameElem) => (prodNameElem.style.fontSize = '24px'));
+
+      /*
+        2. Установите всем элементам с классом "product" внешний отступ справа 50px.
+         */
+      /*
+        получаем все элементы с классом .product
+        через .querySelectorAll
+        методом перебора по всем элементам forEach прописываем в
+        div с этим классом внешний отступ справа 50px методом style.marginRight
+        и тем самым заменяем настройку
+        в тэге <style> .product { ... margin-right: 30px;}
+
+        https://schoolsw3.com/cssref/trycss_js_margin.php
+        https://www.w3schools.com/jsref/prop_style_marginright.asp
+        */
+      document
+        .querySelectorAll('.product')
+        .forEach((prodElem) => (prodElem.style.marginRight = '50px'));
+      /*
+        3. При клике на кнопку "В корзину" название кнопки должно поменяться на
+        "Добавлено" и кнопка должна стать неактивной.
+         */
+      /*
+        Получаем тег 'button' через document.querySelector('button')
+        и к нему применяем метод прослушки .addEventListener
+        через клик мышки 'click' на область этого тега
+        организуем стрелочную функцию по этому событию
+        с переименованием .target.textContent в источнике события
+        самого теэга button и дезактивируем эту кнопку .target.disabled.
+        Но метод querySelector('button').addEventListener
+        работает (только для одной кнопки), а для всех
+        querySelectorAll('button').addEventListener
+        не работает (разрабы JS, вам большой привет!). Т.е не
+        дает слушать отдельно все тэги button.
+        Ну чтож, остается при клике по кнопке ловить событие на
+        всплытии применяя т.н. "Делегирование" см. ДЗ к
+        уроку 5, файл 3, задание 5.
+        Общий тэг для всех нужных кнопок это body, от него и пляшем.
+        Для начала организуем его прослушивание по клику 'click'
+        и посмотрим, куда именно ведет событие evnt
+        */
+      document.body.addEventListener('click', (evnt) => {
+        // если как-то попадаем на тэг button, то
+        if (evnt.target.tagName === 'BUTTON') {
+          //меняем текстовку тэга button на 'Добавлено'
+          evnt.target.textContent = 'Добавлено';
+          //дезактивируем этот элемент
+          evnt.target.disabled = true;
+        }
+      });
+
+      /*
+        4. Создайте полную (глубокую) копию элемента с классом product, измените в
+        этой копии путь до картинки на:
+        http://lorempixel.com/200/300/food/4/
+        Поставьте название товара в данной копии "Товар 4" и замените последний
+        отображенный товар на странице на созданную копию. У данной копии также
+        должен правильно работать код из 3-го задания.
+         */
+      /*
+      получаем элемент с классом .product через .querySelectorAll и применяем
+      Клонирование/копирование тэга с содержимым - глубокое клонирование
+      const newTitle = title.cloneNode(true);
+      */
+      const copyProd = document.querySelector('.product').cloneNode(true);
+      /* 
+      меняем в этом клоне путь до картинки: прописываем в тэге 'img' этого 
+      объекта Но, по этому адресу Не удается получить доступ к сайту
+      */
+      //copyProd.querySelector('img').src = 'http://lorempixel.com/200/300/food/4/';
+      //поменял на рабочую картинку
+      copyProd.querySelector('img').src = 'https://picsum.photos/id/715/200/300';
+      
+      /*
+      меняем в этом клоне название продукта: прописываем 
+      в классе .productName этого объекта 
+      */
+      copyProd.querySelector('.productName').textContent = 'Товар 4';
+      /*
+      Это решение подсмотрел, поскольку в источниках найти данную операцию 
+      не удалось
+      меняем товар 3 на этот клон, 
+      (где :last-of-type представляет последний элемент своего типа среди 
+      группы родственных элементов.) 
+      https://developer.mozilla.org/en-US/docs/Web/CSS/:last-of-type
+      (вот с этим была проблема) находит последнего потомка 
+      с заданным тегом в списке детей родительского элемента. Здесь наш тег 
+      будет .product
+      */
+      document.querySelector('.product:last-of-type').replaceWith(copyProd);
+      /*
+        5. По истечению 2 секунд с момента открытия страницы первый товар 
+        должен быть
+        удален из html.
+         */
+      /*
+        setTimeout позволяет вызвать функцию один раз через определённый 
+        интервал времени
+        Функция или строка кода для выполнения. Обычно это функция. 
+        По историческим причинам можно передать и строку кода, но это 
+        не рекомендуется.
+        https://learn.javascript.ru/settimeout-setinterval
+        получаем первый элемент класса .product
+        */
+      const firstElProd = document.querySelector('.product');
+      //создаем функцию удаления
+      //    function remElem() {
+      //     firstElProd.remove();
+      //   }
+      //вызываем планировщик на 2000 мс, т.е. на 2 сек.
+      //    setTimeout (remElem, 2000);
+      /*
+      Но использование строк не рекомендуется. Вместо этого используйте функции. 
+      Например, так: setTimeout(() => alert('Привет'), 1000);
+      */
+      setTimeout(() => firstElProd.remove(), 2000);
+    </script>
+  </body>
+</html>
