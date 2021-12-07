@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+      integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+      crossorigin="anonymous"
+    />
+    <style>
+      i {
+        font-size: 50px;
+      }
+      .golden {
+        color: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+
+    <div class="stars_container">
+      <i class="fas fa-star"></i><i class="fas fa-star"></i
+      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+      ><i class="fas fa-star"></i>
+    </div>
+
+    <script>
+      'use strict';
+
+      /*
+  1. При наведении на любую из звезд, данной звезде должен ставиться класс
+  golden, также такой класс должен ставиться всем звездам до нее слева.
+  */
+      /*
+см файл записи вэбинара к уроку 6 таймкод 00.24.12
+получаем объект с классом stars_container и обзываем starElems
+*/
+      const starElemS = document.querySelector('.stars_container');
+      /*
+вешаем прослушку события mouseover (наведение мышки) 
+на элемент starElemS с классом .stars_container,
+содержащий в себе все элементы с классом fas (звездочки)
+*/
+      starElemS.addEventListener('mouseover', (event) => {
+        /*
+    и в нем определяем, был ли в источнике события mouseover (наведение мышки)
+    какой-то элемент с классом fas ('это наша звездочка')
+    */
+        if (event.target.classList.contains('fas')) {
+          /*
+    обзываем источник события event.target как starElem
+    и организуем цикл do while по starElem = event.target 
+    где добавляем в элемент класс golden в него и во все 
+    предыдущие элементы находящиеся в том же родителе 
+    (тэг <div class="stars_container">
+      <i class="fas fa-star golden"></i>
+      <i class="fas fa-star golden"></i>
+      <i class="fas fa-star golden"></i>
+      <i class="fas fa-star golden"></i>
+      <i class="fas fa-star golden"></i>
+    </div>)
+    Свойство previousElementSibling содержит предыдущий элемент, 
+    находящийся в этом же родителе <div class="stars_container">
+    http://code.mu/ru/javascript/manual/dom/previousElementSibling/
+    */
+          //обзываем источник события как starElem (локальная переменная)
+          let starElem = event.target;
+          //организуем цикл do while
+          do {
+            /*
+            это первая обязательная итерация, 
+            где добавляем .classList.add класс golden
+            */
+            starElem.classList.add('golden');
+            /*
+            и далее по предыдущим элементам находящимся в том же родителе
+            где на этой же итерации переменной starElem присваиваем
+            значение предыдущего элемента находящимся в том же родителе
+            и с ней повторно заходим в цикл while пока все элементы 
+            не закончатся
+            */
+            starElem = starElem.previousElementSibling;
+          } while (starElem);
+        }
+      });
+
+      /*
+  2. Когда мы уводим курсор мыши от звезды, все поставленные классы из первого
+  задания должны быть удалены.
+   */
+      /*
+вешаем прослушку события mouseout (снятие наведения мышки) 
+на ранее определенный элемент starElemS с классом .stars_container
+*/
+      starElemS.addEventListener('mouseout', (event) => {
+        /*
+в нем определяем, был ли в источнике события mouseout (снятие наведения мышки)
+какой-то элемент с классом fas
+        */
+        if (event.target.classList.contains('fas')) {
+          //if (event.target.classList.contains('fas')) {
+          //обзываем источник события как starElem (локальная переменная)
+          let starElem = event.target;
+          //организуем цикл do while по starElem
+          do {
+            /*
+            это первая обязательная итерация, 
+            где удаляем .classList.remove класс golden
+            */
+            starElem.classList.remove('golden');
+            //и далее по предыдущим элементам находящимся в том же родителе
+            starElem = starElem.previousElementSibling;
+          } while (starElem);
+        }
+      });
+
+      /*
+  3. Когда мы переводим мышь от одной звезды к другой, у нас могут мигать
+  звезды (временно могут становиться черными). Почему так? Напишите словами.
+  Можем ли мы это исправить? Если да, то предложите решение.
+  */
+
+      /*
+  когда при перетаскивании курсора мыши с одной звезды на другую, он попадает
+  в зазор между элементами с классом fas (это наши звездочки) и срабатывает
+  событие mouseout.
+  причина появления зазора - когда браузер читает html код, он читает абсолютно
+  все символы в коде, в т.ч. и символ переноса строки. И по этому символу
+  браузер дает зазор при графическом отображении страницы,
+  на который попадает курсор мыши при перетаскивании.
+  Можно переписать код html без этих символов и тогда зазоры между элементами
+  будут устранены
+  */
+    </script>
+  </body>
+</html>
