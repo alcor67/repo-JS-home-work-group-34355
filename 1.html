@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <style>
+      .nav {
+        margin-top: 30px;
+      }
+      #inputDiv {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+Обязательное задание.
+
+Выполнить все задачи в теге script. Комментарии, в которых написаны задачи, не
+стирать, код с решением задачи пишем под комментарием.
+-->
+    <div class="container">
+      <ul class="nav nav-tabs">
+        <li class="nav-item" data-text="T1">
+          <a class="nav-link active" href="#">Link 1</a>
+        </li>
+        <li class="nav-item" data-text="X6">
+          <a class="nav-link" href="#">Link 2</a>
+        </li>
+        <li class="nav-item" data-text="H99">
+          <a class="nav-link" href="#">Link 3</a>
+        </li>
+      </ul>
+
+      <div class="text">Уверен, ты справишься с этим заданием!</div>
+
+      <input type="range" min="20" max="100" />
+      <div id="inputDiv">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat,
+        expedita.
+      </div>
+    </div>
+
+    <script>
+      'use strict';
+
+      /*
+      1. Необходимо сделать так, чтобы при клике на элемент с классом "nav-link",
+      данному элементу ставился класс "active", при этом у всхе других элементов с
+      классом nav-link данных элемент отсутствовал, необходимо использовать
+      делегирование события.
+      Также необходимо чтобы в div с классом text ставился нужный текст, который
+      прописан в объекте panelText (вам необходимо определить самостоятельно, что
+      общего между данной в html версткой и объектом ниже).
+      */
+      const panelText = {
+        T1: 'Уверен, ты справишься с этим заданием!',
+        X6: 'Знаю, программирование это нелегко.',
+        H99: 'Однако, программирование, в итоге, принесет свои плоды.',
+      };
+
+      /*
+      все элементы с классом nav-link имеют родителя <ul class="nav nav-tabs"> и при клике по элементу с классом "nav-link" ловим событие на уровне родителя
+        чтобы сбросить класс active у всех дочерних элементов
+        и после этого дать этот класс только элементу, который
+        оказался источником события клик
+      */
+      document.querySelector('.nav').addEventListener('click', (event) => {
+        if (event.target.classList.contains('nav-link')) {
+          // сброс класса active у всех элементов
+          document.querySelector('.active').classList.remove('active');
+          //дать класс active только элементу, который оказался
+          //источником события клик
+          event.target.classList.add('active');
+        }
+        //записываем в текстовку textContent тэга div с классом text
+        document.querySelector('div.text').textContent =
+          /*
+      значение элемента panelText[T1] (здесь 'T1' для примера) по ключу 'T1',
+      полученному у родительского элемента parentElement
+      <li class="nav-item" data-text="T1">,
+      источника события event.target через dataset.text
+      (нестандартный атрибут) дата-атрибут data-text="T1"
+
+      посмотреть этот дата-атрибут можно по:
+        console.log(event.target.parentElement.dataset.text);
+      */
+          panelText[event.target.parentElement.dataset.text];
+      });
+
+      /*
+      2. Необходимо сделать так, чтобы при изменении input'а менялся и размер шрифта
+      у элемента с id="inputDiv". Перемещение ползунка должно плавно увеличивать
+      шрифт у текста, никакого резкого увеличения шрифта не должно быть при
+      перетаскивании ползунка.
+       */
+      //получаем элемент inputTagEl с тэгом input
+      const inputTagEl = document.querySelector('input');
+      //получаем элемент inputDivEl с ID inputDiv
+      const inputDivEl = document.getElementById('inputDiv');
+      /*
+        
+      поскольку изначально у элемента inputTagEl (тэг <input>)
+      ползунок стоит на центре
+      и его параметр value имеет значение 20 + (100 - 20) / 2 = 60px,
+      <input type="range" min="20" max="100">
+      а элемент inputDivEl имеет font-size: 30px 
+      который прописан в стилях заголовка тэг <style>
+      #inputDiv {
+        font-size: 30px;
+      }
+      то при прокрутке возникает скачок в изменении размеров шрифта
+      с 30px на 60px
+      чтобы этого избежать, либо вручную прописываем 
+      */
+      inputTagEl.value = '30';
+      console.dir(inputTagEl.value);
+      /*
+      либо более универсальный метод 
+      получаем и присваиваем элементу inputTagEl 
+      в параметр value: стороковое значение "30" из 
+      элемента inputDivEl через CSSStyleDeclaration параметр "font-size"
+      
+      где Метод Number.parseInt() разбирает полученный строковый аргумент и возвращает целое число (убираем px), 
+      https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt
+      
+      а затем Метод toString() возвращает строку, представляющую объект
+      https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/toString
+      в общем, избавляемся в строке от px
+      
+      откуда берем это значение "30":
+      из строкового значения элемента inputDivEl
+      через CSSStyleDeclaration параметр "font-size"
+      где метод .getComputedStyle возвращает объект 
+      , содержащий значения всех CSS-свойств элемента,
+      полученных после применения всех активных таблиц стилей, и
+      завершения базовых вычислений значений, которые они могут содержать
+      https://developer.mozilla.org/ru/docs/Web/API/Window/getComputedStyle
+      (в нашем случае добавляем метод .fontSize для того, 
+      чтобы получить только fontSize)
+      */
+      //console.dir(getComputedStyle(inputDivEl).fontSize);
+      //console.dir(getComputedStyle(inputDivEl));
+      //console.dir(inputDivEl);
+      /*      
+      inputTagEl.value = Number.parseInt(
+        getComputedStyle(inputDivEl).fontSize
+      ).toString();
+*/
+      //console.dir(inputTagEl.value);
+      //console.dir(inputTagEl);
+      /*
+      см. видео к ДЗ 6 файл Урок 6. тайм код 1.06.37 
+      Обработка событий в JavaScript.mp4
+      вешаем событие input на элемент inputTagEl с тэгом input
+      при этом в стилях .style этого элемента в параметре fontSize
+      указываем превращенное в строку с добавлением постфикса 'px'
+      текущее значение элемента event.target.value, 
+      полученное при его изменении
+      в пределах от 20 до 100 (см. <input type="range" min="20" max="100">)
+      */
+      inputTagEl.addEventListener('input', (event) => {
+        inputDivEl.style.fontSize = `${event.target.value}px`;
+        console.log(event.target.value);
+      });
+    </script>
+  </body>
+</html>
