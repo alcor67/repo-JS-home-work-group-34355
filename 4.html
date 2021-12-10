@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Homework</title>
+  </head>
+  <body>
+    <!--
+Необязательное задание.
+
+Необходимо реализовать функцию-конструктор Rectangle.
+-->
+    <script>
+      'use strict';
+
+      /**
+       * Returns the rectangle object with width and height parameters and
+       * getArea() method.
+       *
+       * @param {number} width - Rectangle width
+       * @param {number} height - Rectangle height
+       * @return {Rectangle}
+       */
+      //заводим в функциию параметры width и height
+      //название функции с большой буквы поскольку это функция конструктор
+      function Rectangle(width, height) {
+        /*
+      привязываем параметры функции width и height 
+      через this к текущему обрабатываемому функцией Rectangle объекту
+      фактически это работает как метод r.width который возвращает 
+      переданный в параметр функции width первый аргумент
+      и как r.height который возвращает переданный 
+      в параметр функции height второй аргумент
+      */
+        this.width = width;
+        this.height = height;
+      }
+
+      /*
+      далее создаем в прототипе функции конструктора для 
+      вычисления площади метод getArea где также
+      привязываем параметры функции width и height 
+      через this к текущему обрабатываемому функцией Rectangle объекту
+      
+      после закрывающей фигурной скобки надо указать ';' поскольку
+      это не функция а команда
+      */
+      Rectangle.prototype.getArea = function () {
+        let area = this.width * this.height;
+        return area;
+      };
+      const r = new Rectangle(10, 20);
+      console.log(r.width); // 10
+      console.log(r.height); // 20
+      console.log(r.getArea()); // 200
+    </script>
+  </body>
+</html>
